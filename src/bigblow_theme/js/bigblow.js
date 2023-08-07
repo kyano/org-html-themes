@@ -20,12 +20,12 @@ $(function () {
   $('p').
     html(function (index, old) {
       return old.replace('FIXME',
-        '<span class="fixme">FIXME</span>');
+                         '<span class="fixme">FIXME</span>');
     });
   $('p').
     html(function (index, old) {
       return old.replace('XXX',
-        '<span class="fixme">XXX</span>');
+                         '<span class="fixme">XXX</span>');
     });
 });
 
@@ -45,15 +45,29 @@ $(function () {
 
 // generate contents of minitoc
 function generateMiniToc(divId) {
-  $('#minitoc').empty().append('<h2>In this section</h2>');
-  $('#' + divId).find('h3').each(function (i) {
-    let pos = $(this).text().search(" ");
-    let text = $(this).text().substring(0, pos);
+  let headers = null;
+  if(divId) {
+    $('#minitoc').empty().append('<h2>In this section</h2>');
+    headers = $('#' + divId).find('h3');
+  }
+  else {
+    $('#minitoc').empty().append('<h2>In this document</h2>');
+    headers = $('div#content').find(':header');
+  }
+  headers.each(function(i) {
+    let text = $(this)
+        .clone()    //clone the element
+        .children() //select all the children
+        .remove()   //remove all the children
+        .end()  //again go back to selected element
+        .text().trim();
+    var level = parseInt(this.nodeName.substring(1), 10);
+    let prefix = "".padStart(level-1, "  ");
     $("#minitoc").append("<a href='#" + $(this).attr("id") + "'>"
-      + text + "</a>");
+                         + prefix + text + "</a>");
   });
   // Ensure that the target is expanded (hideShow)
-  $('#minitoc a[href^="#"]').click(function () {
+  $('#minitoc a[href^="#"]').click(function() {
     var href = $(this).attr('href');
     hsExpandAnchor(href);
   });
@@ -71,7 +85,7 @@ function tabifySections() {
     .each(function () {
       // Remove TODO keywords and tags (contained in spans)
       var tabText = $(this).clone().find('span').remove().end()
-        .text().trim();
+                           .text().trim();
       var tabId = $(this).parent().attr('id');
       if (tabText) {
         // - remove heading number (all leading digits)
@@ -113,7 +127,7 @@ function selectTabAndScroll(href) {
   var targetTabAriaLabel = targetTab.attr('aria-labelledby');
 
   var targetTabIndex = $("#content ul li")
-    .index($('[aria-labelledby="' + targetTabAriaLabel + '"]'));
+      .index($('[aria-labelledby="' + targetTabAriaLabel + '"]'));
 
   // Activate target tab
   $('#content').tabs('option', 'active', targetTabIndex);
@@ -189,42 +203,34 @@ $(document).ready(function () {
   $('table').stickyTableHeaders();
 });
 
-function copyToClipboard(text) {
-  if (window.clipboardData && window.clipboardData.setData) { // Internet Explorer
-    window.clipboardData.setData("Text", text);
-  }
-  else { // Fallback solution
-    window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-  }
-}
-
-$(document).ready(function () {
-  // Assuming that the ZeroClipboard swf file is in the same folder than bigblow,
-  // get the path to it (it will be relative to the current page location).
-  var bbScriptPath = $('script[src$="bigblow.js"]').attr('src');  // the js file path
-  var bbPathToZeroClipboardSwf = bbScriptPath.replace('bigblow.js', 'ZeroClipboard.swf');
-
+$(document).ready(function() {
   // Add copy to clipboard snippets
   $('.org-src-container').prepend('<div class="snippet-copy-to-clipboard"><span class="copy-to-clipboard-button">[copy]</span></div>');
 
   // Display/hide snippets on source block mouseenter/mouseleave
   $(document).on('mouseenter', '.org-src-container', function () {
     $(this).find('.snippet-copy-to-clipboard').show();
-
-    // Need to call zclip here, once the button is visible.
-    // Beacause when the button is not visible, zclip does nothing.
-    if ((window.location.protocol != 'file:') && ($(this).find('.zclip').length == 0)) {
-      $(this).find('.copy-to-clipboard-button').zclip({
-        //path: 'http://www.steamdev.com/zclip/js/ZeroClipboard.swf',
-        //path: 'src/bigblow_theme/js/ZeroClipboard.swf',
-        path: bbPathToZeroClipboardSwf,
-        copy: function () {
-          return $(this).parent().parent().find('.src').text();
-        }
-      });
-    }
-  }).on('mouseleave', '.org-src-container', function () {
+  });
+  $(document).on('mouseleave', '.org-src-container', function () {
     $(this).find('.snippet-copy-to-clipboard').hide();
+  });
+
+  $('.copy-to-clipboard-button').click( function() {
+    var element = $(this).parent().parent().find('.src');
+    var val = element.text();
+    val = val.replace(/\n/g, "\r\n");
+
+    var $copyElement = $("<textarea>");
+    $("body").append($copyElement);
+
+    $copyElement.val(val);
+
+    $copyElement.trigger('select');
+    document.execCommand('copy');
+
+    $copyElement.remove();
+
+    $(this).parent().parent().find('.snippet-copy-to-clipboard').hide();
   });
 
   // Handle copy to clipboard (here, for a local file only 'file://...'
@@ -290,7 +296,7 @@ function togglePanel(e) {
   $("#right-panel-contents").toggleClass('active').toggle(200);
 
   var slidePos =
-    $("#left-panel-button").css("left") == "-23px" ? '182px' : '-23px';
+      $("#left-panel-button").css("left") == "-23px" ? '182px' : '-23px';
 
   $("#left-panel-button").
     animate({ "left": slidePos, "opacity": 0.9 }, { duration: "200" });
@@ -333,17 +339,17 @@ $(function () {
 
   function scoreTodo(t) {
     switch (t) {
-      case 'NEW': return 1;
-      case 'TODO': return 2;
-      case 'STRT': return 3;
-      case 'ONGOING': return 3;
-      case 'WAIT': return 4;
-      case 'DLGT': return 5;
-      case 'SDAY': return 6;
-      case 'DFRD': return 7;
-      case 'DONE': return 8;
-      case 'CANX': return 9;
-      default: return 0;
+    case 'NEW': return 1;
+    case 'TODO': return 2;
+    case 'STRT': return 3;
+    case 'ONGOING': return 3;
+    case 'WAIT': return 4;
+    case 'DLGT': return 5;
+    case 'SDAY': return 6;
+    case 'DFRD': return 7;
+    case 'DONE': return 8;
+    case 'CANX': return 9;
+    default: return 0;
     }
   }
 
@@ -359,7 +365,7 @@ $(function () {
   for (i = 0; i < listOfTodo.length; i++) {
     var $thisTodo = listOfTodo[i];
     $(ul).append('<li><span class="todo ' + $thisTodo + '">' + $thisTodo + '</span>'
-      + ' <small>(' + countOfTodo[$thisTodo] + ')</small></li>');
+                 + ' <small>(' + countOfTodo[$thisTodo] + ')</small></li>');
   }
 
   $('#listOfTodo')
@@ -387,7 +393,7 @@ $(function () {
   for (i = 0; i < listOfDone.length; i++) {
     var $thisDone = listOfDone[i];
     $(ul).append('<li><span class="done ' + $thisDone + '">' + $thisDone + '</span>'
-      + ' <small>(' + countOfDone[$thisDone] + ')</small></li>');
+                 + ' <small>(' + countOfDone[$thisDone] + ')</small></li>');
   }
 
   $('#listOfDone')
@@ -422,8 +428,8 @@ $(function () {
     // $(ul).append('<li><span class="tag ' + $thisTag + '">'+
     //                   $thisTag + '</span> <small>(' + countOfTags[$thisTag] + ')</small></li>');
     $(ul).append('<li><span class="tag"><span class="' + $thisTag + '">' + $thisTag
-      + '</span></span>'
-      + ' <small>(' + countOfTags[$thisTag] + ')</small></li>');
+                 + '</span></span>'
+                 + ' <small>(' + countOfTags[$thisTag] + ')</small></li>');
   }
 
   $('#listOfTags')
@@ -440,9 +446,9 @@ $(function () {
     var orgKeyword = $(this).text().trim();
     $('.' + orgKeyword).toggleClass('selected');
     $('#content .' + orgKeyword).parent().parent()
-      .toggleClass('match' + orgKeyword);
+                                .toggleClass('match' + orgKeyword);
     $('#left-panel-wrapper .' + orgKeyword).parent()
-      .toggleClass('match' + orgKeyword);
+                                           .toggleClass('match' + orgKeyword);
     e.preventDefault();
   })
 });
@@ -452,9 +458,9 @@ $(function () {
     var orgTag = $(this).text().trim();
     $('.' + orgTag).toggleClass('selected');
     $('#content .' + orgTag).parent().parent().parent()
-      .toggleClass('matchtag');
+                            .toggleClass('matchtag');
     $('#right-panel-wrapper .' + orgTag).parent().parent()
-      .toggleClass('matchtag');
+                                        .toggleClass('matchtag');
     e.preventDefault();
   })
 });
@@ -488,43 +494,43 @@ function orgDefkey(e) {
   var keycode = (e.keyCode) ? e.keyCode : e.which;
   var actualkey = String.fromCharCode(keycode);
   switch (actualkey) {
-    case "?": // help (dashboard)
-    case "h":
-      togglePanel(e);
-      break;
-    case "n": // next
-      clickNextTab();
-      break;
-    case "p": // previous
-      clickPreviousTab();
-      break;
+  case "?": // help (dashboard)
+  case "h":
+    togglePanel(e);
+    break;
+  case "n": // next
+    clickNextTab();
+    break;
+  case "p": // previous
+    clickPreviousTab();
+    break;
     // case "b": // scroll down - should be mapped to Shift-SPC
     //     $(window).scrollTop($(window).scrollTop()-$(window).height());
     //     break;
-    case "<": // scroll to top
-      $(window).scrollTop(0);
-      break;
-    case ">": // scroll to bottom
-      $(window).scrollTop($(document).height());
-      break;
-    case "-": // collapse all
-      hsCollapseAll();
-      break;
-    case "+": // expand all
-      hsExpandAll();
-      break;
-    case "r": // go to next task
-      hsReviewTaskNext();
-      break;
-    case "R": // go to previous task
-      hsReviewTaskPrev();
-      break;
-    case "q": // quit reviewing
-      hsReviewTaskQuit();
-      break;
-    case "g": // refresh the page (from the server, rather than the cache)
-      location.reload(true);
-      break;
+  case "<": // scroll to top
+    $(window).scrollTop(0);
+    break;
+  case ">": // scroll to bottom
+    $(window).scrollTop($(document).height());
+    break;
+  case "-": // collapse all
+    hsCollapseAll();
+    break;
+  case "+": // expand all
+    hsExpandAll();
+    break;
+  case "r": // go to next task
+    hsReviewTaskNext();
+    break;
+  case "R": // go to previous task
+    hsReviewTaskPrev();
+    break;
+  case "q": // quit reviewing
+    hsReviewTaskQuit();
+    break;
+  case "g": // refresh the page (from the server, rather than the cache)
+    location.reload(true);
+    break;
   }
 }
 
