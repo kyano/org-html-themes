@@ -1,4 +1,4 @@
-#+TITLE:     How to export Org mode files into awesome HTML in 2 minutes
+#+TITLE:     How to effortlessly transform your Org mode files into stunning HTML in just 2 minutes
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
 #+DESCRIPTION: Org-HTML export made simple.
@@ -15,6 +15,43 @@
 #+html: <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=VCVAS6KPDQ4JC&lc=BE&item_number=org%2dhtml%2dthemes&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted">
 #+html:   <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="btn_donate_LG.gif" />
 #+html: </a>
+
+* ADVERT: Elevate your Emacs skills in Paris, Rotterdam, Leuven or Valencia!
+
+*Unlock the power of Emacs in Valencia!  Join my next exclusive "Emacs Boost"
+course on April 11th to 12th, 2024!*
+
+#+attr_html: :style height: 90px !important;
+[[file:images/Logo-HD-transparent-25pc.png]]
+
+Ready to /supercharge your productivity/ and become an Emacs ninja?  Look no
+further!
+
+*What you'll learn:*
+- Master Emacs from the basics to advanced tricks.
+- /Boost your editing efficiency/ and streamline your workflow.
+- Customize Emacs to fit your unique needs.
+- And much more!
+
+*Upcoming course details:*
+- *Date:* April 11th to 12th (Thu + Fri)
+- *Location:* Valencia, Spain
+- *Audience:* Open to anyone interested in Emacs, from beginners to advanced
+  users.
+
+*Why choose my course?*
+- Expert instructor with 24 years of Emacs experience.
+- /Hands-on exercises/ to reinforce your learning.
+- /Networking opportunities/ with like-minded Emacs enthusiasts.
+- Personalized attention.
+
+Don't miss this opportunity to take your Emacs skills to the next level! \\
+Seats are limited, so /reserve yours today/.
+
+Visit https://emacsboost.com/en/ for more information, other dates and other
+locations, and to /reserve your seat/.
+
+/See you in Valencia!/  [[https://emacsboost.com/en/][#EmacsBoostValencia]]
 
 * Overview
 
@@ -215,33 +252,31 @@ Solution provided by Malcolm Cook:
 ,#+HTML_HEAD: <style> li{max-width:800px;}</style
 #+end_src
 
-* Contributing
+* Contribute to the project!
 
-** Issues
+** Report issues and enhancements
 
-Report issues and suggest features and improvements on the [[https://github.com/fniessen/org-html-themes/issues/new][GitHub issue tracker]].
+Found a bug or have an idea for a new feature?  Share your thoughts on the
+[[https://github.com/fniessen/org-html-themes/issues/new][GitHub issue tracker]].
 
-** Patches
+** Submit patches
 
-I love contributions!  Patches under any form are always welcome!
+I welcome contributions in any form!  Feel free to submit patches to enhance the
+project.
 
-** Donations
+** Support development with a donation!
 
-If you use the org-html-themes project (or any of [[https://github.com/fniessen/][my other projects]]) and feel it
-is making your life better and easier, you can show your appreciation and help
-support future development by making today a [[https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=VCVAS6KPDQ4JC&lc=BE&item_number=org%2dhtml%2dthemes&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted][donation]] through PayPal.  Thank
-you!
+If you find the "org-html-themes" project (or any of [[https://github.com/fniessen/][my other projects]])
+enhancing your Emacs experience and simplifying your workflow, seize the
+opportunity to express your appreciation!  Help fuel future development by
+making a [[https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=VCVAS6KPDQ4JC&lc=BE&item_number=org%2dhtml%2dthemes&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted][donation]] through PayPal. Your support is invaluable -- thank you!
 
-Regardless of the donations, org-html-themes will always be free both as in
-beer and as in speech.
-
-** Follow me
-
-I have an [[https://twitter.com/f_niessen][f_niessen]] account on Twitter.  You should follow it.
+Remember, regardless of donations, "org-html-themes" will always remain freely
+accessible, both as in Belgian beer and as in speech.
 
 * License
 
-Copyright (C) 2011-2022 Fabrice Niessen
+Copyright (C) 2011-2024 Fabrice Niessen
 
 Author: Fabrice Niessen \\
 Keywords: org-mode html themes
