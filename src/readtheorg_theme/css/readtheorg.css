@@ -1457,3 +1457,7 @@ h2.footnotes {
   text-align: right;
   padding-right: 10pt;
 }
+
+.underline {
+  text-decoration:underline
+}
